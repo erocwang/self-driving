@@ -34,7 +34,7 @@ def average_slope_intercept(image, lines):
 def canny(image): 
     gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY) # convert to grayscale 
     blur = cv2.GaussianBlur(gray, (5,5), 0) # gaussian blur 
-    canny = cv2.Canny(blur, 50, 150) # computes derivate of change in x and y direction and if ratio passes threshold, shows in image
+    canny = cv2.Canny(blur, 50, 100) # computes derivate of change in x and y direction and if ratio passes threshold, shows in image
     return canny 
 
 def display_lines(image, lines): 
@@ -70,7 +70,7 @@ while(cap.isOpened()):
     if ret: 
         canny_image = canny(frame)
         cropped_image = region_of_interest(canny_image)
-        lines = cv2.HoughLinesP(cropped_image, 2, np.pi/180, 100, np.array([]), minLineLength=40, maxLineGap=5) # hough transform given coordinates and thresholds
+        lines = cv2.HoughLinesP(cropped_image, 2, np.pi/180, 100, np.array([]), minLineLength=100, maxLineGap=5) # hough transform given coordinates and thresholds
         averaged_lines = average_slope_intercept(frame, lines)
         line_image = display_lines(frame, averaged_lines)
         combo_image = cv2.addWeighted(frame, 0.8, line_image, 1, 1) # weighted average sum of images 
